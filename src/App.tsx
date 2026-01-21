@@ -21,6 +21,7 @@ import 'stream-chat-react/dist/css/v2/index.css';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const userId = import.meta.env.VITE_USER_ID;
+const userName = import.meta.env.VITE_USER_NAME;
 const token = import.meta.env.VITE_USER_TOKEN;
 
 const filters = { members: { $in: [userId] }, type: 'public' };
@@ -31,7 +32,7 @@ export const App = () => {
   const client = useCreateChatClient({
     apiKey,
     tokenOrProvider: token,
-    userData: { id: userId },
+    userData: { id: userId, name: userName },
   });
 
   if (!client) return <div>Loading...</div>;
