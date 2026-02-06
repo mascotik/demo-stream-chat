@@ -6,6 +6,7 @@
  * Based on official GetStream documentation:
  * https://getstream.io/chat/docs/sdk/react/basics/getting_started/
  */
+import { useEffect } from 'react';
 import {
   Chat,
   Channel,
@@ -35,15 +36,34 @@ export const App = () => {
     userData: { id: userId, name: userName },
   });
 
+  // Log all WebSocket events
+  useEffect(() => {
+    if (!client) return;
+
+    const handleEvent = (event) => {
+      console.log('[WS Event]', event.type, event);
+    };
+
+    client.on(handleEvent);
+
+    return () => {
+      client.off(handleEvent);
+    };
+  }, [client]);
+
   if (!client) return <div>Loading...</div>;
 
   return (
-    <Chat client={client}>
-      <ChannelList sort={sort} filters={filters} options={options} lockChannelOrder={true} />
+    <Chat client={client} suppressAutoscroll={true}>
+      <ChannelList
+        sort={sort}
+        filters={filters}
+        options={options}
+        lockChannelOrder={true} />
       <Channel>
         <Window>
           <ChannelHeader />
-          <MessageList />
+          <MessageList suppressAutoscroll={true} />
           <MessageInput />
         </Window>
         <Thread />
