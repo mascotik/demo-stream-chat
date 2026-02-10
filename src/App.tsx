@@ -54,7 +54,9 @@ export const App = () => {
   if (!client) return <div>Loading...</div>;
 
   return (
-    <Chat client={client} suppressAutoscroll={true}>
+    <Chat client={client} 
+      // suppressAutoscroll={true}
+    >
       <ChannelList
         sort={sort}
         filters={filters}
@@ -63,7 +65,10 @@ export const App = () => {
       <Channel>
         <Window>
           <ChannelHeader />
-          <MessageList suppressAutoscroll={true} />
+          <MessageList 
+            // suppressAutoscroll={true}
+            internalInfiniteScrollProps={{ threshold: 50 }} 
+          />
           <MessageInput />
         </Window>
         <Thread />
